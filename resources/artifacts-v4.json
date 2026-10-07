@@ -1,0 +1,47 @@
+{
+  "priority": {
+    "archive": "egip-priority-v4.tar.gz",
+    "archive_sha256": "39ce790fedc167380a7be42ad5e648cd9ce91f433602e0e004ee06858c175bc3",
+    "archive_bytes": 459650184,
+    "hosting_status": "maintainer_preparation_archive; public URL pending",
+    "original_checkpoint_sha256": "277a0c37dd4bae07ea6043b1dd4994bdb794b62c2d104aaa1dddd6b9fa6fc685",
+    "checkpoint_sha256": "a303411b2fd476903dfa80618725dee7b2e06466ef2208e3d6a2c6d3eaea0cf6",
+    "state_tensors": 199,
+    "files": {
+      "LICENSE": "58d1e17ffe5109a7ae296caafcadfdbe6a7d176f0bc4ab01e12a689b0499d8bd",
+      "MODEL_CARD.md": "23022084aa278347b1255b87b0578fe014aeb17ff0925a7c9f1b5d1617d1f803",
+      "backbone/config.json": "20b692ce487e9ae8f5e97d08c795eed4ba6fb6a5f89fd67f64880dbd232d8da4",
+      "checkpoint.pt": "a303411b2fd476903dfa80618725dee7b2e06466ef2208e3d6a2c6d3eaea0cf6",
+      "tokenizer/tokenizer.json": "211450626085e33cca02f66334eb786793bf1472afe9d0140bab3e6a2843b323",
+      "tokenizer/tokenizer_config.json": "9909b5974fc7e2be20ac6661d7ccb00b3c42a5f6b870dbf87c2140f1d3737626"
+    }
+  },
+  "models": {
+    "priority_backbone": {
+      "repository": "cross-encoder/nli-roberta-base",
+      "revision": "1be0567456f0543475805e758725f151f283705a"
+    },
+    "relevance": {
+      "repository": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "c9745ed1d9f207416be6d2e6f8de32d1f16199bf"
+    },
+    "scorer_backbone": {
+      "repository": "FacebookAI/roberta-large",
+      "revision": "722cf37b1afa9454edce342e7895e588b6ff1d59"
+    },
+    "qwen": {
+      "repository": "Qwen/Qwen2.5-32B-Instruct",
+      "metadata_matching_revision": "5ede1c97bbab6ce5cda5812749b4c0bdf79b18dd",
+      "weight_shards_individually_hashed": false,
+      "files": {
+        "config.json": "9c6772f138ef9e5b3d1c18f2c87e451bbc01f5f1a4eabb36f9bf4f53829b903e",
+        "model.safetensors.index.json": "0183543f2e6e40d3d1e863ed0b2a8c9cdaf2ee4045ce724a45cea30e9995a0af",
+        "tokenizer_config.json": "5b5d4f65d0acd3b2d56a35b56d374a36cbc1c8fa5cf3b3febbbfabf22f359583"
+      }
+    },
+    "docnli": {
+      "sha256": "f644873d595db61ce9a3db5f42889a319c518dabb2564e67565949046020dfb1",
+      "official_source": "https://github.com/salesforce/DocNLI"
+    }
+  }
+}

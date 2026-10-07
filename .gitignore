@@ -1,0 +1,45 @@
+# Local settings and credentials
+.env
+.env.*
+!.env.example
+configs/paths.local.toml
+*.pem
+*.key
+
+# Python environments and generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# External dependencies and downloadable resources
+third_party/
+data/
+checkpoints/
+models/
+.cache/
+*.pt
+*.pth
+*.safetensors
+*.pkl
+
+# Local experiments; essential source must be extracted before this rule applies
+runs/
+artifacts/
+outputs/
+logs/
+results/
+wandb/
+slurm-*.out
+
+# Local editor and OS state
+.vscode/
+.idea/
+.DS_Store

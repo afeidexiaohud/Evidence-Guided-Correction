@@ -1,0 +1,20 @@
+{
+  "fecdata": {
+    "source_sha256": "6f99aae5ad2b6a3c0a9c90d8f8dd091f3f42ed24a302279a3c2e361113efca20",
+    "canonical_sha256": "05eead437b0a2185e1c59f84e18c97a578e7f19d913c83342e9ed5e5e72e5bed",
+    "record_count": 3882,
+    "record_id_rule": "'fecdata-test:' + decimal source claim_id",
+    "input_source_field": "mutated",
+    "evidence_source_field": "gold_evidence",
+    "reference_source_field": "original"
+  },
+  "scifact": {
+    "source_sha256": "ca787b0c240b83c7caba0fbca78b4e9a2c0d4acd043fd3bbf6d670ca3b3b6e9a",
+    "canonical_sha256": "ffbbc1384bb2b6ce194c06f83746857d30d2a4927340b8e6f9cac1463378ab53",
+    "record_count": 100,
+    "record_id_rule": "'scifact-fec-test:' + zero-padded zero-based row index (4 digits) + ':' + first 12 hex of SHA-256(source line bytes without CR/LF)",
+    "input_source_field": "input_claim",
+    "evidence_source_field": "evidence",
+    "reference_source_field": "gt_claim"
+  }
+}

@@ -1,0 +1,19 @@
+# Copy to paths.local.toml; paths are relative to this project's root.
+[project]
+root = ".."
+[experiment]
+m2c_shots = 3
+mask_top_k = 2
+error_weight = 0.9
+diversity = 0.3
+[data]
+life_gold_filtered = "data/supervision/filtered_traces.txt"
+life_gold_raw = "data/supervision/raw_traces.txt"
+fever_dev = "data/upstream/fecdata/dev.jsonl"
+fever_test = "data/upstream/fecdata/test.jsonl"
+scifact_test = "data/upstream/scifact_test.jsonl"
+[models]
+locator_backbone = "cross-encoder/nli-roberta-base"
+minilm = "sentence-transformers/all-MiniLM-L6-v2"
+life_verifier_gold = "./models/source-verifier-gold"
+# Explicit local snapshots can replace these identifiers. See resources/artifacts-v4.json.

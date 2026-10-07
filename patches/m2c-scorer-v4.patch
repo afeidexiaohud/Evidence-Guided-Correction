@@ -1,0 +1,97 @@
+diff --git a/correction_scoring.py b/correction_scoring.py
+index b8c3627..b3a97d5 100644
+--- a/correction_scoring.py
++++ b/correction_scoring.py
+@@ -1,3 +1,4 @@
++import os
+ import torch
+ import torch.nn as nn
+ from transformers import AutoTokenizer
+@@ -65,14 +66,25 @@ class EntailmentModel:
+         #checkpoint = torch.load(entailment_model_path, map_location=torch.device('cpu'))
+         self.model.load_state_dict(checkpoint, strict=False)
+ 	#ffor calculating rogue score
+-        self.evaluator = rouge.Rouge(metrics=['rouge-n', 'rouge-l'],
+-                           #max_n=2,
+-                           limit_length=False,
+-                           apply_avg=False,
+-                           apply_best=True,
+-                           alpha=0.5, # Default F1_score
+-                           weight_factor=1.2,
+-                           stemming=True)
++        try:
++            self.evaluator = rouge.Rouge(metrics=['rouge-n', 'rouge-l'],
++                               #max_n=2,
++                               limit_length=False,
++                               apply_avg=False,
++                               apply_best=True,
++                               alpha=0.5, # Default F1_score
++                               weight_factor=1.2,
++                               stemming=True)
++        except TypeError:
++            self.evaluator = rouge.Rouge(metrics=['rouge-l'])
++
++    def rouge_l_f(self, correction, reference):
++        if not correction.strip() or not reference.strip():
++            return 0.0
++        scores = self.evaluator.get_scores([correction], [reference])
++        if isinstance(scores, list):
++            return scores[0]['rouge-l']['f']
++        return scores['rouge-l']['f']
+ 	
+     def run_entailment_prediction(self, sample: Dict):
+         sample['correction_scores'] = []
+@@ -80,7 +92,7 @@ class EntailmentModel:
+         sample['corrected sentences'] = sample['corrected sentences'] + [sample['input_claim']]#+ sample['g_correction']
+         for correction in sample['corrected sentences']:
+             current_correction_scores = []
+-            rouge_score = self.evaluator.get_scores([correction], [sample['input_claim']])['rouge-l']['f']
++            rouge_score = self.rouge_l_f(correction, sample['input_claim'])
+             sample['rouge_scores'].append(rouge_score)
+             evidence = sample['evidence'] #if 'full_evidence' in sample else sample['evidence_text']
+ 
+@@ -104,7 +116,7 @@ class EntailmentModel:
+ 			#generating input ids for the encoded evidence
+                 input_ids = torch.LongTensor(encoded_ctx_truncated + [self.tokenizer.sep_token_id] + encoded_correction).cuda().unsqueeze(0)
+ 		
+-                attention_mask = torch.LongTensor([1] * len(input_ids)).cuda().unsqueeze(0)
++                attention_mask = torch.ones_like(input_ids).cuda()
+ 
+ 
+                 inputs = {'input_ids':input_ids,
+@@ -168,7 +180,9 @@ list_dict_map=[0]*len(sentences)
+ for i in range(len(sentences)):
+     #print(i)
+     samples[i]=sentences[int(i)]
+-    samples[i]["corrected sentences"]=[x.strip() for x in samples[i]["corrected sentences"]]
++    samples[i]["corrected sentences"]=[
++        x.strip() for x in samples[i]["corrected sentences"] if x and x.strip()
++    ]
+     #samples[j]["evidence"]=[samples[j]["evidence"][0]+samples[j]["evidence"][1]]
+     list_dict_map[i]=i
+     samples[j]["evidence"]=[' '.join(samples[j]["evidence"])]
+@@ -180,15 +194,20 @@ from types import SimpleNamespace
+ import json
+ 
+ model_args = {
+-    'entailment_model_path': 'DocNLI.pretrained.RoBERTA.model.pt',
+-    'entailment_tokenizer_path':'roberta-large',
++    'entailment_model_path': os.environ.get(
++        'M2C_DOCNLI_PATH',
++        'models/DocNLI.pretrained.RoBERTA.model.pt',
++    ),
++    'entailment_tokenizer_path': os.environ.get(
++        'M2C_ROBERTA_PATH',
++        'roberta-large',
++    ),
+ }
+ model_args = SimpleNamespace(**model_args)
+ correction = Correction(model_args)
+ outputs = correction.batch_correct(samples)
+ for i in range(len(sentences)):
+-    sentences[str(list_dict_map[i])]=outputs[i]
++    sentences[list_dict_map[i]]=outputs[i]
+ cs_output=args.output_file.split(".pkl")[0]+"_cs.pkl"
+ with open(cs_output,'wb') as eo:
+     pickle.dump(sentences, eo)
+-

@@ -1,0 +1,6 @@
+# Frozen utility refit environment; portable replay itself needs no old sklearn.
+numpy==1.26.4
+scipy==1.15.3
+scikit-learn==1.2.2
+tomli==2.0.1
+pytest==8.3.5

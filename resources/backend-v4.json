@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/payelsantra/MaskToCorrect.git",
+  "commit": "da809c78f63db6014aafdc69516c9e010b6c7ba2",
+  "runtime_files": {
+    "corrector/corrected_candidates.py": "a1fed0c7baa617ecbcddae0e60444b98357f25e49bcb14a33bd03366c70a0307",
+    "correction_scoring.py": "faf6d6bc213785616fd6461ccccb8f133af3fa829c13f97b76928800a8469f4b"
+  },
+  "patch_sha256": "a305ae1346cf0b3b246bcc911958afa13f2af6056f6f40202a397b0d4ae163d2"
+}
